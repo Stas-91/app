@@ -47,11 +47,11 @@ jobs:
           $HOME/yandex-cloud/bin/yc config set folder-id "${{ secrets.YC_FOLDER_ID }}"
           $HOME/yandex-cloud/bin/yc compute instances list
 
-      # # 7. Настраиваем kubeconfig
-      # - name: Configure Kubernetes Context
-      #   run: |
-      #     echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
-      #     chmod 600 kubeconfig
+      # 7. Настраиваем kubeconfig
+      - name: Configure Kubernetes Context
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
+          chmod 600 kubeconfig
 
       # # 8. Деплой в Kubernetes
       # - name: Deploy to Kubernetes
