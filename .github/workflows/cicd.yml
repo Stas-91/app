@@ -10,28 +10,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Клонируем репозиторий
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      # # 1. Клонируем репозиторий
+      # - name: Checkout Code
+      #   uses: actions/checkout@v4
 
-      # 2. Устанавливаем Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # # 2. Устанавливаем Docker Buildx
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
 
-      # 3. Логинимся в Docker Hub
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_NAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+      # # 3. Логинимся в Docker Hub
+      # - name: Log in to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKER_NAME }}
+      #     password: ${{ secrets.DOCKER_TOKEN }}
 
-      # 4. Строим и пушим Docker-образ
-      - name: Build and push latest
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_NAME }}/app:latest
+      # # 4. Строим и пушим Docker-образ
+      # - name: Build and push latest
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_NAME }}/app:latest
 
       # 5. Устанавливаем kubectl
       - name: Set up kubectl
@@ -43,25 +43,23 @@ jobs:
         run: |
           curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -n
           $HOME/yandex-cloud/bin/yc version
-          $HOME/yandex-cloud/bin/yc init --token "${{ secrets.YC_TOKEN }}" \
-                                        --cloud-id "${{ secrets.YC_CLOUD_ID }}" \
-                                        --folder-id "${{ secrets.YC_FOLDER_ID }}"
+          $HOME/yandex-cloud/bin/yc init --token "${{ secrets.YC_TOKEN }}" --cloud-id "${{ secrets.YC_CLOUD_ID }}" --folder-id "${{ secrets.YC_FOLDER_ID }}"
 
-      # 7. Настраиваем kubeconfig
-      - name: Configure Kubernetes Context
-        run: |
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
-          chmod 600 kubeconfig
+      # # 7. Настраиваем kubeconfig
+      # - name: Configure Kubernetes Context
+      #   run: |
+      #     echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
+      #     chmod 600 kubeconfig
 
-      # 8. Деплой в Kubernetes
-      - name: Deploy to Kubernetes
-        run: |
-          export KUBECONFIG=kubeconfig
-          # Проверяем, что деплой существует
-          if kubectl get deployment my-app; then
-            kubectl rollout restart deployment/my-app
-            kubectl rollout status deployment/my-app
-          else
-            echo "Deployment 'my-app' not found!"
-            exit 1
-          fi
+      # # 8. Деплой в Kubernetes
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     export KUBECONFIG=kubeconfig
+      #     # Проверяем, что деплой существует
+      #     if kubectl get deployment my-app; then
+      #       kubectl rollout restart deployment/my-app
+      #       kubectl rollout status deployment/my-app
+      #     else
+      #       echo "Deployment 'my-app' not found!"
+      #       exit 1
+      #     fi
