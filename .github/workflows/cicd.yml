@@ -41,11 +41,11 @@ jobs:
 
       - name: Install Yandex Cloud CLI
         run: |
-          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
-          $HOME/bin/yc version
-          $HOME/bin/yc init --token "${{ secrets.YC_TOKEN }}" \
-                            --cloud-id "${{ secrets.YC_CLOUD_ID }}" \
-                            --folder-id "${{ secrets.YC_FOLDER_ID }}"
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -n
+          $HOME/yandex-cloud/bin/yc version
+          $HOME/yandex-cloud/bin/yc init --token "${{ secrets.YC_TOKEN }}" \
+                                        --cloud-id "${{ secrets.YC_CLOUD_ID }}" \
+                                        --folder-id "${{ secrets.YC_FOLDER_ID }}"
 
       # 7. Настраиваем kubeconfig
       - name: Configure Kubernetes Context
