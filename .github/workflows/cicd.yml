@@ -39,15 +39,14 @@ jobs:
         with:
           version: 'latest'
 
-      # 6. Устанавливаем Yandex Cloud CLI
       - name: Install Yandex Cloud CLI
         run: |
           curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash
-          # yc установлен в $HOME/bin
+          # бинарник yc установлен в $HOME/bin
           export PATH=$PATH:$HOME/bin
           # проверяем версию
           yc version
-          # авторизация CLI через IAM токен из секретов
+          # авторизация CLI через IAM-токен
           yc init --token "${{ secrets.YC_TOKEN }}" \
                   --cloud-id "${{ secrets.YC_CLOUD_ID }}" \
                   --folder-id "${{ secrets.YC_FOLDER_ID }}"
