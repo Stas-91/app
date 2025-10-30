@@ -53,7 +53,11 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
           chmod 600 kubeconfig
 
-      # 8. Деплой в Kubernetes
+      # 8. путь для запуска yc
+      - name: Add yc to PATH
+        run: echo "$HOME/yandex-cloud/bin" >> $GITHUB_PATH
+
+      # 9. Деплой в Kubernetes
       - name: Deploy to Kubernetes
         run: |
           export KUBECONFIG=kubeconfig
