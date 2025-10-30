@@ -53,15 +53,15 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > kubeconfig
           chmod 600 kubeconfig
 
-      # # 8. Деплой в Kubernetes
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     export KUBECONFIG=kubeconfig
-      #     # Проверяем, что деплой существует
-      #     if kubectl get deployment my-app; then
-      #       kubectl rollout restart deployment/my-app
-      #       kubectl rollout status deployment/my-app
-      #     else
-      #       echo "Deployment 'my-app' not found!"
-      #       exit 1
-      #     fi
+      # 8. Деплой в Kubernetes
+      - name: Deploy to Kubernetes
+        run: |
+          export KUBECONFIG=kubeconfig
+          # Проверяем, что деплой существует
+          if kubectl get deployment my-app; then
+            kubectl rollout restart deployment/my-app
+            kubectl rollout status deployment/my-app
+          else
+            echo "Deployment 'my-app' not found!"
+            exit 1
+          fi
